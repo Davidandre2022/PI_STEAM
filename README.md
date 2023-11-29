@@ -154,6 +154,7 @@ Cada función de punto final lee el conjunto de datos del archivo CSV, realiza p
 
 Es importante tener en cuenta que las consultas deben realizarse respetando las mayúsculas y minúsculas en el campo correspondiente para obtener resultados efectivos. Por ejemplo, al ingresar datos para la primera función, se debe proporcionar el nombre del desarrollador como 'Valve'; escribirlo como 'valve' (en minúsculas) no generará una respuesta.
 
+# por problemas de los pesos de los archivos tuve que fragmentar los documentos, solo pude subir los que podian entrar al Github
 Enlace de GitHub:
 
 Enlace de deployment: https://modelo-steam17.onrender.com/docs
