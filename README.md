@@ -79,34 +79,35 @@ Estas variables son utilizadas para aplicar el modelo de Similitud de Coseno en 
 
 La función `recomendacion_juego(item_id)` recomienda juegos similares al especificado por `item_id`. Aquí está una descripción paso a paso del proceso:
 
-#### Lectura de Datos:
 ```python
+Lectura de Datos:
 data = pd.read_csv('juegos_steam.csv')
 data_juegos_steam = pd.read_csv('juegos_id.csv')
-Vectorización de Texto:
 
+Vectorización de Texto:
 tfidv = TfidfVectorizer(min_df=2, max_df=0.7, token_pattern=r'\b[a-zA-Z0-9]\w+\b'): Se inicializa un TfidfVectorizer que convierte el texto en vectores de características. Define la frecuencia mínima y máxima de documentos para filtrar términos.
 data_vector = tfidv.fit_transform(data['features']): Ajusta el TfidfVectorizer a la columna 'features' del DataFrame data y transforma las 'features' en una matriz de TF-IDF.
 data_vector_df = pd.DataFrame(data_vector.toarray(), index=data['item_id'], columns=tfidv.get_feature_names_out()): Convierte la matriz de características TF-IDF en un DataFrame.
-Cálculo de Similitud de Coseno:
 
+Cálculo de Similitud de Coseno:
 vector_similitud_coseno = cosine_similarity(data_vector_df.values): Calcula la similitud del coseno entre todos los pares de vectores TF-IDF.
 cos_sim_df = pd.DataFrame(vector_similitud_coseno, index=data_vector_df.index, columns=data_vector_df.index): Convierte la matriz de similitud de coseno en un DataFrame.
-Selección y Ordenamiento de Juegos Similares:
 
+Selección y Ordenamiento de Juegos Similares:
 juego_simil = cos_sim_df.loc[item_id]: Selecciona la fila correspondiente al 'item_id' del juego de entrada en el DataFrame de similitud de coseno.
 simil_ordenada = juego_simil.sort_values(ascending=False): Ordena la fila seleccionada en orden descendente de similitud de coseno.
 resultado = simil_ordenada.head(6).reset_index(): Selecciona los 6 juegos más similares y restablece el índice del DataFrame resultante.
+
 Obtención de Títulos de Juegos Recomendados:
-
 result_df = resultado.merge(data_juegos_steam, on='item_id', how='left'): Fusiona el DataFrame resultante con el DataFrame 'data_juegos_steam' basado en la columna 'item_id' para obtener los títulos de los juegos recomendados.
+
 Generación del Mensaje de Recomendación:
-
 Las siguientes tres líneas crean un mensaje recomendando los 5 mejores juegos más similares al juego de entrada y almacenan el mensaje y los juegos recomendados en un diccionario.
-Retorno de Resultados:
 
+Retorno de Resultados:
 return result_dict: Devuelve el diccionario que contiene el mensaje y los juegos recomendados.
 ```
+
 ## <h1 align=center> **`Funciones y API`**
 
 Se ha desarrollado una aplicación FastAPI que permite realizar diversas consultas y análisis sobre un conjunto de datos de juegos provenientes de la plataforma Steam. Este conjunto de datos se carga desde un archivo CSV y se procesa utilizando la biblioteca pandas. La aplicación responde a solicitudes GET a varios puntos finales, cada uno diseñado para llevar a cabo un tipo específico de análisis de los datos.
