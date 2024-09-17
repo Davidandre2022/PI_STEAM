@@ -178,6 +178,6 @@ Según la empresa desarrolladora, se devuelve un diccionario con el nombre de la
   }
 Cada función de punto final lee el conjunto de datos del archivo CSV, realiza procesamiento utilizando pandas y devuelve una respuesta, generalmente en forma de diccionario o lista de diccionarios que contiene los resultados del análisis.
 
-Es importante tener en cuenta que las consultas deben realizarse respetando las mayúsculas y minúsculas en el campo correspondiente para obtener resultados efectivos. Por ejemplo, al ingresar datos para la primera función, se debe proporcionar el nombre del desarrollador como ´´Valve´´; escribirlo como ´´valve´´ (en minúsculas) no generará una respuesta.
+Es importante tener en cuenta que las consultas deben realizarse respetando las mayúsculas y minúsculas en el campo correspondiente para obtener resultados efectivos. Por ejemplo, al ingresar datos para la primera función, se debe proporcionar el nombre del desarrollador como `Valve`; escribirlo como `valve` (en minúsculas) no generará una respuesta.
 
-Enlace de deployment: https://modelo-steam17.onrender.com/docs
+`Enlace de deployment: https://modelo-steam17.onrender.com/docs`
