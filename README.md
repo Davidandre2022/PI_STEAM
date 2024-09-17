@@ -105,8 +105,8 @@ Generación del Mensaje de Recomendación:
 Las siguientes tres líneas crean un mensaje recomendando los 5 mejores juegos más similares al juego de entrada y almacenan el mensaje y los juegos recomendados en un diccionario.
 Retorno de Resultados:
 
-return result_dict: Devuelve el diccionario que contiene el mensaje y los juegos recomendados.```
-
+return result_dict: Devuelve el diccionario que contiene el mensaje y los juegos recomendados.
+```
 ## <h1 align=center> **`Funciones y API`**
 
 Se ha desarrollado una aplicación FastAPI que permite realizar diversas consultas y análisis sobre un conjunto de datos de juegos provenientes de la plataforma Steam. Este conjunto de datos se carga desde un archivo CSV y se procesa utilizando la biblioteca pandas. La aplicación responde a solicitudes GET a varios puntos finales, cada uno diseñado para llevar a cabo un tipo específico de análisis de los datos.
