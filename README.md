@@ -54,25 +54,35 @@ El siguiente fragmento de código, contenido en el archivo `ETL_TOTAL.ipynb`, ll
 
 ## <h1 align=center> **`Análisis de Datos Exploratorio`** 
 
-En el archivo EDA_PI.ipynb, se realizó un análisis exploratorio de datos (EDA) en el que se identificaron outliers en las variables numéricas 'release_date', 'price' y 'playtime_forever'. Estos outliers fueron tratados y se eliminaron para evitar que afectaran negativamente al análisis.
+En el archivo EDA_PI.ipynb, se realizó un análisis exploratorio de datos (EDA) extenso sobre las variables numéricas `release_date`, `price` y `playtime_forever` para identificar y eliminar outliers. Se aplicó el método del Rango Intercuartílico (IQR) en tres conjuntos de datos: `data1`, `data2` y `data3`. Utilizando Q1, Q3 y la fórmula `IQR = Q3 - Q1`, se calcularon los límites para cada variable y se excluyeron los valores que estaban fuera de esos rangos para evitar resultados sesgados.
 
-Para abordar esto, se calculó el rango intercuartil (IQR) para las variables mencionadas en tres marcos de datos diferentes: 'data1', 'data2' y 'data3'. Se utilizaron los cuartiles Q1 y Q3, junto con la fórmula IQR = Q3 - Q1. Este enfoque es robusto ante valores atípicos. Posteriormente, se establecieron límites basados en el IQR para eliminar valores fuera de rango.
+Después de tratar los outliers, se observó una distribución más típica en estas variables. Además, las variables categóricas (`user_id`, `item_id`, `genre`, `developer` y `title`) se codificaron utilizando `LabelEncoder`, y los valores transformados se almacenaron en nuevas columnas (`user_id1`, `item_id1`, `genre1`, `developer1`, `title1`).
 
-Después de este tratamiento, se observó una distribución más típica de los datos en las variables mencionadas. Luego, se abordó el manejo de variables categóricas mediante la transformación utilizando LabelEncoder. Las columnas 'user_id', 'item_id', 'genre', 'developer' y 'title' se convirtieron en valores numéricos, y los resultados se almacenaron en nuevas columnas llamadas user_id1, item_id1, genre1, developer1 y title1, respectivamente.
+### Selección de Características:
+Para evaluar la correlación de las variables con la variable objetivo (`item_id`), se emplearon dos métodos:
+1. **Matriz de correlación**: Visualizada para comprender mejor las relaciones entre las variables.
+2. **SelectKBest (con mutual_info_classif)**: Este método ayudó a identificar las mejores características basadas en las puntuaciones de información mutua con la variable objetivo.
 
-El siguiente paso involucró analizar la correlación de las variables con la variable objetivo ('item_id'). Se utilizaron dos métodos para este propósito. Primero, se calculó una matriz de correlación y se visualizó para comprender mejor la relación entre las variables. Además, se empleó el método SelectKBest con la función mutual_info_classif para seleccionar las mejores características en función de sus puntuaciones de información mutua con la variable objetivo. Ambos métodos coincidieron en que las variables más relacionadas son el título, el desarrollador, el año de lanzamiento, el precio, el tiempo de juego y el género.
+Ambos enfoques destacaron que las características más significativas fueron `title`, `developer`, `release year`, `price`, `playtime` y `genre`.
 
 ## <h1 align=center> **`Machine Learning`**
 
-Preparación de Datos:
-En esta sección, se lleva a cabo la preparación de los datos para aplicar el método de Similitud de Coseno, centrándose en las variables más relacionadas con el objetivo. Se crean dos subconjuntos de datos: uno llamado 'juegos_id' que contiene 'item_id' y 'título del juego', y otro llamado 'juegos_steam' que contiene 'item_id' y 'features'. En este último, la columna 'features' es una combinación de las columnas 'title', 'developer', y 'release_date', donde estas variables se concatenan en una sola columna separada por comas y espacios. Estas variables son las seleccionadas para aplicar el modelo de similitud de coseno en la recomendación.
+### Preparación de Datos
 
-Modelo de Recomendación:
-La función recomendacion_juego(item_id) se encarga de recomendar juegos similares al juego especificado por 'item_id'. Aquí está una descripción paso a paso:
+En esta sección, se prepara la información necesaria para aplicar el método de Similitud de Coseno, enfocándose en las variables más relevantes para la recomendación de juegos. Se crean dos subconjuntos de datos:
+- **juegos_id**: Contiene las columnas `item_id` y `título del juego`.
+- **juegos_steam**: Contiene las columnas `item_id` y `features`, donde la columna `features` es una combinación de `title`, `developer`, y `release_date`, concatenadas en una sola columna separada por comas y espacios.
 
-Lectura de Datos:
+Estas variables son utilizadas para aplicar el modelo de Similitud de Coseno en el sistema de recomendación.
 
-data = pd.read_csv('juegos_steam.csv') y data_juegos_steam = pd.read_csv('juegos_id.csv'): Estas líneas leen datos de dos archivos CSV en dos DataFrames pandas.
+### Modelo de Recomendación
+
+La función `recomendacion_juego(item_id)` recomienda juegos similares al especificado por `item_id`. Aquí está una descripción paso a paso del proceso:
+
+#### Lectura de Datos:
+```python
+data = pd.read_csv('juegos_steam.csv')
+data_juegos_steam = pd.read_csv('juegos_id.csv')
 Vectorización de Texto:
 
 tfidv = TfidfVectorizer(min_df=2, max_df=0.7, token_pattern=r'\b[a-zA-Z0-9]\w+\b'): Se inicializa un TfidfVectorizer que convierte el texto en vectores de características. Define la frecuencia mínima y máxima de documentos para filtrar términos.
@@ -95,7 +105,7 @@ Generación del Mensaje de Recomendación:
 Las siguientes tres líneas crean un mensaje recomendando los 5 mejores juegos más similares al juego de entrada y almacenan el mensaje y los juegos recomendados en un diccionario.
 Retorno de Resultados:
 
-return result_dict: Devuelve el diccionario que contiene el mensaje y los juegos recomendados.
+return result_dict: Devuelve el diccionario que contiene el mensaje y los juegos recomendados.```
 
 ## <h1 align=center> **`Funciones y API`**
 
