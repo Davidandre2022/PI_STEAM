@@ -110,27 +110,74 @@ return result_dict: Devuelve el diccionario que contiene el mensaje y los juegos
 
 ## <h1 align=center> **`Funciones y API`**
 
-Se ha desarrollado una aplicación FastAPI que permite realizar diversas consultas y análisis sobre un conjunto de datos de juegos provenientes de la plataforma Steam. Este conjunto de datos se carga desde un archivo CSV y se procesa utilizando la biblioteca pandas. La aplicación responde a solicitudes GET a varios puntos finales, cada uno diseñado para llevar a cabo un tipo específico de análisis de los datos.
+Esta aplicación FastAPI permite realizar diversas consultas y análisis sobre un conjunto de datos de juegos provenientes de la plataforma Steam. Los datos se cargan desde un archivo CSV y se procesan utilizando la biblioteca pandas. La aplicación responde a solicitudes `GET` en varios puntos finales, cada uno diseñado para realizar un tipo específico de análisis sobre los datos.
 
-Los puntos finales incluyen:
+### Puntos Finales
 
-def PlayTimeGenre( genero : str ): Debe devolver año con mas horas jugadas para dicho género.
-Ejemplo de retorno: {"Año de lanzamiento con más horas jugadas para Género X" : 2013}
+#### 1. `PlayTimeGenre(genero: str)`
 
-def UserForGenre( genero : str ): Debe devolver el usuario que acumula más horas jugadas para el género dado y una lista de la acumulación de horas jugadas por año.
-Ejemplo de retorno: {"Usuario con más horas jugadas para Género X" : us213ndjss09sdf, "Horas jugadas":[{Año: 2013, Horas: 203}, {Año: 2012, Horas: 100}, {Año: 2011, Horas: 23}]}
+Este punto final devuelve el año con más horas jugadas para el género proporcionado.
 
-def UsersRecommend( año : int ): Devuelve el top 3 de juegos MÁS recomendados por usuarios para el año dado. (reviews.recommend = True y comentarios positivos/neutrales)
-Ejemplo de retorno: [{"Puesto 1" : X}, {"Puesto 2" : Y},{"Puesto 3" : Z}]
+- **Ejemplo de retorno**:
+  ```json
+  {
+    "Año de lanzamiento con más horas jugadas para Género X": 2013
+  }
+  
+#### 2. `UserForGenre(genero: str)`
 
-def UsersWorstDeveloper( año : int ): Devuelve el top 3 de desarrolladoras con juegos MENOS recomendados por usuarios para el año dado. (reviews.recommend = False y comentarios negativos)
-Ejemplo de retorno: [{"Puesto 1" : X}, {"Puesto 2" : Y},{"Puesto 3" : Z}]
+Debe devolver el usuario que acumula más horas jugadas para el género dado y una lista de la acumulación de horas jugadas por año.
 
-def sentiment_analysis( empresa desarrolladora : str ): Según la empresa desarrolladora, se devuelve un diccionario con el nombre de la desarrolladora como llave y una lista con la cantidad total de registros de reseñas de usuarios que se encuentren categorizados con un análisis de sentimiento como valor.
-Ejemplo de retorno: {'Valve' : [Negative = 182, Neutral = 120, Positive = 278]}
+- **Ejemplo de retorno**:
+  ```json
+  {
+  "Usuario con más horas jugadas para Género X": "us213ndjss09sdf",
+  "Horas jugadas": [
+    {"Año": 2013, "Horas": 203},
+    {"Año": 2012, "Horas": 100},
+    {"Año": 2011, "Horas": 23}
+  ]
+  }
 
+#### 3. `UsersRecommend( año : int )`
+
+Devuelve el top 3 de juegos MÁS recomendados por usuarios para el año dado. (reviews.recommend = True y comentarios positivos/neutrales)
+
+- **Ejemplo de retorno**:
+  ```json
+  [
+  {"Puesto 1": "Juego X"},
+  {"Puesto 2": "Juego Y"},
+  {"Puesto 3": "Juego Z"}
+  ]
+
+#### 4. `UsersWorstDeveloper( año : int )`
+
+Devuelve el top 3 de desarrolladoras con juegos MENOS recomendados por usuarios para el año dado. (reviews.recommend = False y comentarios negativos)
+
+- **Ejemplo de retorno**:
+  ```json
+  [
+  {"Puesto 1": "Desarrolladora X"},
+  {"Puesto 2": "Desarrolladora Y"},
+  {"Puesto 3": "Desarrolladora Z"}
+  ]
+  
+#### 4. `Sentiment_analysis( empresa desarrolladora : str )`
+
+Según la empresa desarrolladora, se devuelve un diccionario con el nombre de la desarrolladora como llave y una lista con la cantidad total de registros de reseñas de usuarios que se encuentren categorizados con un análisis de sentimiento como valor.
+
+- **Ejemplo de retorno**:
+  ```json
+  {
+  "Valve": [
+    {"Negative": 182},
+    {"Neutral": 120},
+    {"Positive": 278}
+  ]
+  }
 Cada función de punto final lee el conjunto de datos del archivo CSV, realiza procesamiento utilizando pandas y devuelve una respuesta, generalmente en forma de diccionario o lista de diccionarios que contiene los resultados del análisis.
 
-Es importante tener en cuenta que las consultas deben realizarse respetando las mayúsculas y minúsculas en el campo correspondiente para obtener resultados efectivos. Por ejemplo, al ingresar datos para la primera función, se debe proporcionar el nombre del desarrollador como 'Valve'; escribirlo como 'valve' (en minúsculas) no generará una respuesta.
+Es importante tener en cuenta que las consultas deben realizarse respetando las mayúsculas y minúsculas en el campo correspondiente para obtener resultados efectivos. Por ejemplo, al ingresar datos para la primera función, se debe proporcionar el nombre del desarrollador como ´´Valve´´; escribirlo como ´´valve´´ (en minúsculas) no generará una respuesta.
 
 Enlace de deployment: https://modelo-steam17.onrender.com/docs
